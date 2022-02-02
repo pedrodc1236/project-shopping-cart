@@ -40,4 +40,29 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = () => { };
+const captureFather = document.querySelector('.items');
+
+const createItensProduct = async () => {
+  const fun = await fetchProducts();
+  fun.forEach((product) => {
+    const obj = {
+      sku: product.id,
+      name: product.title,
+      image: product.thumbnail,
+    };
+    captureFather.appendChild(createProductItemElement(obj));
+  });
+};
+
+createItensProduct();
+
+window.onload = () => {
+  fetchProducts();
+  createProductImageElement();
+  createCustomElement();
+  createCartItemElement();
+  getSkuFromProductItem();
+  cartItemClickListener();
+  createCartItemElement();
+  createItensProduct();  
+};
