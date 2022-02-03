@@ -4,7 +4,7 @@ const fetchProducts = async (param) => {
 
     const response = await fetch(URL);
     const data = await response.json();
-    return data.results;
+    return data;
   } catch (error) { 
     return error;
   }
