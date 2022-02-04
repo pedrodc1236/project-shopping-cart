@@ -1,4 +1,5 @@
 const captureFather = document.querySelector('.items');
+const father = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -33,6 +34,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const capFather = event.target.parentElement;
   capFather.removeChild(event.target);
+  saveCartItems(capFather);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -65,8 +67,8 @@ const addItem = async (event) => {
     name: apiFetch.title,
     salePrice: apiFetch.price,
   };
-  const father = document.querySelector('.cart__items');
   father.appendChild(createCartItemElement(objeto));
+  saveCartItems(father);
 };
  
 const addItemCart = async () => {
@@ -77,6 +79,15 @@ const addItemCart = async () => {
   });
   };
 
+  const getAddLocalStorage = () => {
+    father.innerHTML = getSavedCartItems();
+    const childs = father.childNodes;
+    childs.forEach((child) => {
+      child.addEventListener('click', cartItemClickListener);
+    });
+  };
+
 window.onload = () => {
   createItensProduct(); setTimeout(() => addItemCart(), 100);
+  getAddLocalStorage();
 };

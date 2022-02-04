@@ -1,6 +1,5 @@
-const saveCartItems = () => {
-  const array = [];
-  localStorage.setItem('cartItems');
+const saveCartItems = (param) => {
+  localStorage.setItem('cartItems', JSON.stringify(param.innerHTML));
 };
 
 if (typeof module !== 'undefined') {
