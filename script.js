@@ -1,5 +1,7 @@
 const captureFather = document.querySelector('.items');
 const father = document.querySelector('.cart__items');
+let arr = [];
+const captureP = document.querySelector('.total-price');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -15,6 +17,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// Função auxiliar para criação dos produtos
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -27,16 +30,29 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// Função para pegar todos ID's
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+// Função para a soma de todos os preços
+const sumPriceTotal = () => {
+  const total = arr.reduce((acc, element) => (acc + element.salePrice), 0);
+  return total;
+};
+
+// Função para remover os itens do carrinho e para filtrar os objtos que iram para o array do carrinho do qual vai ser feita a soma dos preços
 function cartItemClickListener(event) {
   const capFather = event.target.parentElement;
   capFather.removeChild(event.target);
   saveCartItems(capFather);
+  const id = event.target.innerText.substr(5, 13); 
+  const newArray = arr.filter((obj) => obj.sku !== id);
+  arr = [...newArray];
+  captureP.innerText = sumPriceTotal();
 }
 
+// Função para criação das li do qual ficaram na lista de compra a direita com seu respectivo innerHTML e exento de click no botão para adicionar/criar
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -45,6 +61,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// Função assincrona para pegar os dados do API e tornar as sections de cada item adicionados filhos da sections de items
 const createItensProduct = async () => {
   const fun = await fetchProducts('computador');
   fun.results.forEach((product) => {
@@ -57,6 +74,7 @@ const createItensProduct = async () => {
   });
 };
 
+// Função assincrona para conseguir o id e criação do objeto do qual vai adicionar o innertext das li do carrinho e o push para o array do qual será usado para a soma do preço dos produtos, e como é uma função de adicionar recebe a soma no innerText de um P que representa o valor total dos produtos.
 const addItem = async (event) => {
   const captureFat = event.target.parentElement;
   const capturefirstChild = captureFat.firstElementChild;
@@ -67,10 +85,14 @@ const addItem = async (event) => {
     name: apiFetch.title,
     salePrice: apiFetch.price,
   };
+  arr.push(objeto);
+  console.log(arr);
   father.appendChild(createCartItemElement(objeto));
   saveCartItems(father);
+  captureP.innerText = sumPriceTotal();
 };
  
+// Função assíncrona responsável por capturar todos os botões dos produtos e colocar um evento de click em cada um deles, trazendo a função de add os produtos como auxilio para o evento.
 const addItemCart = async () => {
   // await createItensProduct();
   const btns = document.querySelectorAll('.item__add');
@@ -79,6 +101,7 @@ const addItemCart = async () => {
   });
   };
 
+// Função para salvar o carrinho ao recarregar a pagina atráves do localStorage e imprementar o evento de salvar quando remover também a todos os filhos da Ol que são li's.
   const getAddLocalStorage = () => {
     father.innerHTML = getSavedCartItems();
     const childs = father.childNodes;
