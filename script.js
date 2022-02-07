@@ -3,6 +3,7 @@ const father = document.querySelector('.cart__items');
 let arr = [];
 const captureP = document.querySelector('.total-price');
 const captureBtnClear = document.querySelector('.empty-cart'); 
+const captureContainer = document.querySelector('.container');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -62,9 +63,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// Função para adicionar o 'carregando...' antes da requisição chegar
+const addLoading = () => {
+  const createLoading = document.createElement('p');
+  createLoading.className = 'loading';
+  createLoading.innerText = 'carregando...';
+  captureContainer.appendChild(createLoading);
+};
+
+// Função para remover o 'carregando...'
+const removeLoading = () => {
+  const loading = document.querySelector('.loading');
+  captureContainer.removeChild(loading);
+};
+
 // Função assincrona para pegar os dados do API e tornar as sections de cada item adicionados filhos da sections de items
 const createItensProduct = async () => {
+  addLoading();
   const fun = await fetchProducts('computador');
+  removeLoading();
   fun.results.forEach((product) => {
     const obj = {
       sku: product.id,
