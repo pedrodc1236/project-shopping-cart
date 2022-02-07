@@ -2,6 +2,7 @@ const captureFather = document.querySelector('.items');
 const father = document.querySelector('.cart__items');
 let arr = [];
 const captureP = document.querySelector('.total-price');
+const captureBtnClear = document.querySelector('.empty-cart'); 
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -110,7 +111,17 @@ const addItemCart = async () => {
     });
   };
 
+// Função para esvaziar o carrinho, limpando o carrinho de compras
+const clearCart = () => {
+  captureBtnClear.addEventListener('click', () => {
+    father.innerHTML = '';
+    captureP.innerText = 0;
+    saveCartItems(father);
+  }); 
+};
+
 window.onload = () => {
   createItensProduct(); setTimeout(() => addItemCart(), 100);
   getAddLocalStorage();
+  clearCart();
 };
