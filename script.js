@@ -1,6 +1,6 @@
 const captureFather = document.querySelector('.items');
 const father = document.querySelector('.cart__items');
-let arr = [];
+const arr = [];
 const captureP = document.querySelector('.total-price');
 const captureBtnClear = document.querySelector('.empty-cart'); 
 const captureContainer = document.querySelector('.container');
@@ -37,10 +37,19 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-// Função para a soma de todos os preços
-const sumPriceTotal = () => {
-  const total = arr.reduce((acc, element) => (acc + element.salePrice), 0);
-  return total;
+const funPrice = (param) => {
+  captureP.innerHTML = '';
+  const allLi = [...param];
+  let sum = 0;
+  allLi.forEach((li) => {
+    const innerTextLi = li.innerText;
+    const indexLi = innerTextLi.indexOf('$') + 1;
+    const stringNumber = innerTextLi.substr(indexLi);
+    const price = parseFloat(stringNumber);
+    sum += price;
+  });
+
+  captureP.innerText = sum;
 };
 
 // Função para remover os itens do carrinho e para filtrar os objtos que iram para o array do carrinho do qual vai ser feita a soma dos preços
@@ -48,10 +57,11 @@ function cartItemClickListener(event) {
   const capFather = event.target.parentElement;
   capFather.removeChild(event.target);
   saveCartItems(capFather);
-  const id = event.target.innerText.substr(5, 13); 
-  const newArray = arr.filter((obj) => obj.sku !== id);
-  arr = [...newArray];
-  captureP.innerText = sumPriceTotal();
+  // const id = event.target.innerText.substr(5, 13); 
+  // const newArray = arr.filter((obj) => obj.sku !== id);
+  // arr = [...newArray];
+  // captureP.innerText = sumPriceTotal();
+  funPrice(father.children);
 }
 
 // Função para criação das li do qual ficaram na lista de compra a direita com seu respectivo innerHTML e exento de click no botão para adicionar/criar
@@ -103,11 +113,9 @@ const addItem = async (event) => {
     name: apiFetch.title,
     salePrice: apiFetch.price,
   };
-  arr.push(objeto);
-  console.log(arr);
   father.appendChild(createCartItemElement(objeto));
   saveCartItems(father);
-  captureP.innerText = sumPriceTotal();
+  funPrice(father.children);
 };
  
 // Função assíncrona responsável por capturar todos os botões dos produtos e colocar um evento de click em cada um deles, trazendo a função de add os produtos como auxilio para o evento.
