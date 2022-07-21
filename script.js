@@ -1,6 +1,5 @@
 const captureFather = document.querySelector('.items');
 const father = document.querySelector('.cart__items');
-const arr = [];
 const captureP = document.querySelector('.total-price');
 const captureBtnClear = document.querySelector('.empty-cart'); 
 const captureContainer = document.querySelector('.container');
@@ -49,7 +48,10 @@ const funPrice = (param) => {
     sum += price;
   });
 
-  captureP.innerText = sum;
+  captureP.innerText = `R$${parseFloat(sum.toFixed(2)).toLocaleString('pt-BR', {
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  })}`;
 };
 
 // Função para remover os itens do carrinho e para filtrar os objtos que iram para o array do carrinho do qual vai ser feita a soma dos preços
