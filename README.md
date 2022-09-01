@@ -19,3 +19,29 @@ Nesse projeto foi feito um carrinho de compras totalmente dinâmico! Consumindo 
 - HTML 5
 - CSS3
 - Jest para os testes unitários.
+
+## Instalação do projeto localmente:
+ 
+Após cada um dos passos, haverá um exemplo do comando a ser digitado para fazer o que está sendo pedido, caso tenha dificuldades e o exemplo não seja suficiente, não hesite em me contatar em pedrodc1236@gmail.com
+
+1. Abra o terminal e crie um diretório no local de sua preferência com o comando **mkdir**:
+```javascript
+  mkdir projetos
+```
+
+2. Entre no diretório que acabou de criar e depois clone o projeto:
+```javascript
+  cd projetos
+  git clone git@github.com:pedrodc1236/project-shopping-cart.git
+```
+
+Para evitar problemas de CORS, utilize a extensão Live Server do VSCode para conseguir carregar todos os assets externos, com o servidor rodando, abra o arquivo index.html, não é necessário rodar um npm install para ver a aplicação
+
+## Habilidades Desenvolvidas
+
+Neste projeto, desenvolvi as seguintes habilidades:
+
+ - Fazer requisições a uma API (Application Programming Interface) do Mercado Livre;
+ - Utilizar os seus conhecimentos sobre JavaScript, CSS e HTML;
+ - Trabalhar com funções assíncronas;
+ - Implementar testes unitários.
